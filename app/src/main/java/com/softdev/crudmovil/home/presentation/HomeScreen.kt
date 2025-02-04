@@ -1,6 +1,5 @@
 package com.softdev.crudmovil.home.presentation
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,8 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.softdev.crudmovil.home.data.IHomeService
 import com.softdev.crudmovil.home.domain.dtos.response.CitiesResponse
+import com.softdev.crudmovil.home.domain.dtos.request.CityRequest
 import com.softdev.crudmovil.home.infrastructure.HomeRepository
 
 @Composable
@@ -38,6 +37,7 @@ fun HomeScreen(navController: NavHostController) {
     LaunchedEffect(Unit) {
         viewModel.loadCities()
     }
+    var showDialog by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         if (isLoading) {
@@ -56,6 +56,29 @@ fun HomeScreen(navController: NavHostController) {
                     CityCard(city)
                 }
             }
+        }
+
+        // Floating Action Button
+        FloatingActionButton(
+            onClick = { showDialog = true },
+            containerColor = Color(0xFF0D47A1),
+            contentColor = Color.White,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+        ) {
+            Text("+", fontSize = 24.sp)
+        }
+
+        // Mostrar modal para agregar una ciudad
+        if (showDialog) {
+            AddCityDialog(
+                onDismiss = { showDialog = false },
+                onSave = { city ->
+                    viewModel.createCity(city) // Enviar a la API
+                    showDialog = false
+                }
+            )
         }
     }
 }
@@ -100,4 +123,52 @@ fun CityCard(city: CitiesResponse) {
             }
         }
     }
+}
+
+@Composable
+fun AddCityDialog(onDismiss: () -> Unit, onSave: (CityRequest) -> Unit) {
+    var name by remember { mutableStateOf("") }
+    var population by remember { mutableStateOf("") }
+    var urlPhoto by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Agregar Ciudad") },
+        text = {
+            Column {
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text("Nombre") }
+                )
+                OutlinedTextField(
+                    value = population,
+                    onValueChange = { population = it },
+                    label = { Text("Población") }
+                )
+                OutlinedTextField(
+                    value = urlPhoto,
+                    onValueChange = { urlPhoto = it },
+                    label = { Text("URL de la Foto") }
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    if (name.isNotEmpty() && population.isNotEmpty() && urlPhoto.isNotEmpty()) {
+                        val city = CityRequest(1,name, population.toInt(), urlPhoto)
+                        onSave(city)
+                    }
+                }
+            ) {
+                Text("Guardar")
+            }
+        },
+        dismissButton = {
+            Button(onClick = onDismiss) {
+                Text("Cancelar")
+            }
+        }
+    )
 }

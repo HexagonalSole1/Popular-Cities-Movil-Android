@@ -1,7 +1,9 @@
 package com.softdev.crudmovil.home.infrastructure
 
-import com.softdev.crudmovil.home.data.IHomeService
+import IHomeService
+import com.softdev.crudmovil.home.domain.dtos.request.CityRequest
 import com.softdev.crudmovil.home.domain.dtos.response.CitiesResponse
+import retrofit2.Response
 
 
 class HomeRepository(private val cityService: IHomeService) {
@@ -16,6 +18,18 @@ class HomeRepository(private val cityService: IHomeService) {
             }
         } catch (e: Exception) {
             emptyList()
+        }
+    }
+
+    /**
+     * Crea una nueva ciudad en la API.
+     */
+    suspend fun createCity(city: CityRequest): Boolean {
+        return try {
+            val response: Response<Unit> = cityService.createCity(city)
+            response.isSuccessful
+        } catch (e: Exception) {
+            false
         }
     }
 }
