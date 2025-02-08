@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
 }
 
 android {
@@ -49,15 +50,18 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-
+    implementation(libs.androidx.health.connect)
     implementation(libs.kotlinx.serialization.json)
     implementation("androidx.navigation:navigation-compose:${property("navigation_compose_version")}")
+    implementation(libs.google.play.services.location)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.gson)
     implementation(libs.coil.compose)
 
+    implementation(libs.accompanist.permissions)
+    implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.animation.core.lint)
     testImplementation(libs.junit)

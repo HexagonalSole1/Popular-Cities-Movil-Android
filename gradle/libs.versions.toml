@@ -14,6 +14,10 @@ retrofit = "2.9.0"
 gson = "2.9.0"
 kotlinx-serialization = "1.5.1" # Usa la última versión estable
 coil = "2.4.0"
+play-services-location = "21.0.1"
+health-connect = "1.1.0-alpha07"
+accompanist = "0.31.0-alpha"
+kotlinx-coroutines-play-services = "1.7.1"
 
 
 [libraries]
@@ -34,7 +38,12 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-animation-core-lint = { group = "androidx.compose.animation", name = "animation-core-lint", version.ref = "animationCoreLint" }
 
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
+
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines-play-services" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+google-play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
+androidx-health-connect = { module = "androidx.health.connect:connect-client", version.ref = "health-connect" }
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
